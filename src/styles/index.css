@@ -107,3 +107,32 @@
 	font-style: italic;
 	color: hsl(var(--muted-foreground));
 }
+
+/* JURNAL Loader Animation */
+.loader {
+	width: fit-content;
+	font-size: 40px;
+	font-family: monospace;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #0000;
+	-webkit-text-stroke: 1px hsl(var(--primary));
+	--g: conic-gradient(hsl(var(--primary)) 0 0) no-repeat text;
+	background: var(--g) 0, var(--g) 1ch, var(--g) 2ch, var(--g) 3ch, var(--g) 4ch, var(--g) 5ch;
+	background-position-y: 100%;
+	animation: l15 3s infinite;
+}
+
+.loader:before {
+	content: "JURNAL";
+}
+
+@keyframes l15 {
+	0%     {background-size: 1ch 0   ,1ch 0   ,1ch 0   ,1ch 0   ,1ch 0   ,1ch 0   }
+	16.67% {background-size: 1ch 100%,1ch 0   ,1ch 0   ,1ch 0   ,1ch 0   ,1ch 0   }
+	33.33% {background-size: 1ch 100%,1ch 100%,1ch 0   ,1ch 0   ,1ch 0   ,1ch 0   }
+	50%    {background-size: 1ch 100%,1ch 100%,1ch 100%,1ch 0   ,1ch 0   ,1ch 0   }
+	66.67% {background-size: 1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 0   ,1ch 0   }
+	83.33% {background-size: 1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 0   }
+	100%   {background-size: 1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 100%,1ch 100%}
+}
