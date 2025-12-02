@@ -1,18 +1,26 @@
 import axios from "axios";
 
 // Use environment variable - must be set at build time for Vite
-// Never use localhost in production to avoid browser security prompts
+// Production API URL: https://posh-jurnal-backend.vercel.app
 let API_URL = import.meta.env.VITE_API_URL || "";
 
-// Ensure we never use localhost in production
-if (import.meta.env.PROD && (!API_URL || API_URL.includes("localhost") || API_URL.includes("127.0.0.1"))) {
-	console.error("VITE_API_URL must be set to a production URL. Current value:", API_URL);
-	API_URL = ""; // Use relative URLs as fallback
+// Normalize API URL - remove trailing slash if present
+if (API_URL) {
+	API_URL = API_URL.replace(/\/+$/, "");
+}
+
+// In production, ensure we have a valid API URL
+if (import.meta.env.PROD) {
+	if (!API_URL || API_URL.includes("localhost") || API_URL.includes("127.0.0.1")) {
+		console.error("VITE_API_URL must be set to a production URL. Current value:", API_URL);
+		// Default to production API if not set (for Vercel deployment)
+		API_URL = "https://posh-jurnal-backend.vercel.app";
+	}
 }
 
 // Log in development to help debug
 if (import.meta.env.DEV) {
-	console.log("API_URL:", API_URL || "http://localhost:5000 (fallback)");
+	console.log("API_URL:", API_URL || "Using Vite proxy (http://localhost:5000)");
 }
 
 const api = axios.create({
