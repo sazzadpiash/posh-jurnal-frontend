@@ -31,9 +31,14 @@ const api = axios.create({
 	},
 });
 
-// Request interceptor
+// Request interceptor - add Authorization header from localStorage
 api.interceptors.request.use(
 	(config) => {
+		// Get token from localStorage (fallback for mobile browsers)
+		const token = localStorage.getItem('token');
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
 		return config;
 	},
 	(error) => {
@@ -47,6 +52,10 @@ api.interceptors.response.use(
 		return response;
 	},
 	async (error) => {
+		// If 401 and we have a token, clear it (token expired/invalid)
+		if (error.response?.status === 401) {
+			localStorage.removeItem('token');
+		}
 		// Don't redirect on 401 errors - let AuthContext and router handle authentication state
 		// Redirecting here causes infinite loops during initial auth checks
 		return Promise.reject(error);
